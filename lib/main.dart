@@ -25,7 +25,45 @@ class MyHomePage extends StatelessWidget {
         title: 'Buy the new notebook',
         amount: 20000,
         date: DateTime.now()),
+    Transaction(
+        id: 't3', title: 'Buy the new TV', amount: 15000, date: DateTime.now()),
   ];
+
+  Widget _buildCard(Transaction tx) => SizedBox(
+        height: 210,
+        child: Card(
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(tx.title,
+                    style: TextStyle(fontWeight: FontWeight.w500)),
+                subtitle: Text(tx.id),
+                leading: Icon(
+                  Icons.insert_emoticon,
+                  color: Colors.blue[500],
+                ),
+              ),
+              Divider(),
+              ListTile(
+                title: Text(tx.amount.toString(),
+                    style: TextStyle(fontWeight: FontWeight.w500)),
+                leading: Icon(
+                  Icons.attach_money,
+                  color: Colors.blue[500],
+                ),
+              ),
+              ListTile(
+                title: Text(new DateFormat('dd/MM/yyyy')
+                    .format(tx.date)), // วัน/เดือน/ปี
+                leading: Icon(
+                  Icons.today,
+                  color: Colors.blue[500],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -36,21 +74,11 @@ class MyHomePage extends StatelessWidget {
       body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: transactions.map((tx) {
-            return Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ListTile(
-                    leading: Icon(Icons.album),
-                    title: Text("${tx.id} - ${new DateFormat('dd/MM/yyyy') .format(tx.date)}"),
-                    subtitle:
-                        Text("${tx.title} - ${tx.amount.toString()}"),
-                  ),
-                ],
-              ),
-            );
-          }).toList()),
+          children: [
+            ...transactions.map((tx) {
+              return _buildCard(tx);
+            }).toList()
+          ]),
     );
   }
 }
