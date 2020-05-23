@@ -13,8 +13,81 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  final List<Transaction> transactions = [
+class NewTransaction extends StatelessWidget {
+  final Function addTransaction;
+
+  var titleController = TextEditingController();
+  var amountController = TextEditingController();
+
+  NewTransaction(this.addTransaction);
+
+  Widget build(BuildContext context) {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TextField(
+            decoration: InputDecoration(labelText: 'Title'),
+            controller: titleController,
+          ),
+          TextField(
+            decoration: InputDecoration(labelText: 'Amount'),
+            controller: amountController,
+            keyboardType: TextInputType.number,
+          ),
+          FlatButton(
+            child: Text('Submit'),
+            textColor: Colors.purple,
+            color: Colors.yellow,
+            onPressed: () {
+              print('Click Button');
+              print(titleController.text);
+              print(amountController.text);
+              if (titleController.text == "" || amountController.text == "") {
+                showAlertDialog(
+                    context, "Error", "Please input title and amount!!!");
+              } else {
+                addTransaction(titleController.text, amountController.text);
+              }
+            },
+          ),
+        ]);
+  }
+
+  showAlertDialog(BuildContext context, String title, String text) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(title),
+      content: Text(text),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+}
+
+class UserTransactions extends StatefulWidget {
+  _UserTransactionsState createState() => _UserTransactionsState();
+}
+
+class _UserTransactionsState extends State<UserTransactions> {
+  final List<Transaction> _transactions = [
     Transaction(
         id: 't1',
         title: 'Pay for Krapao Kai',
@@ -25,13 +98,28 @@ class MyHomePage extends StatelessWidget {
         title: 'Buy the new notebook',
         amount: 20000,
         date: DateTime.now()),
-    Transaction(
-        id: 't3', title: 'Buy the new TV', amount: 15000, date: DateTime.now()),
-    Transaction(
-        id: 't3', title: 'Buy the new TV', amount: 15000, date: DateTime.now()),
-    Transaction(
-        id: 't3', title: 'Buy the new TV', amount: 15000, date: DateTime.now()),
   ];
+
+  void addTransaction(String title, String amount) {
+    setState(() {
+      _transactions.add(Transaction(
+          id: 't4',
+          title: title,
+          amount: double.parse(amount),
+          date: DateTime.now()));
+    });
+  }
+
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        NewTransaction(addTransaction),
+        ..._transactions.map((tx) {
+          return _buildCard(tx);
+        }).toList()
+      ],
+    );
+  }
 
   Widget _buildCard(Transaction tx) => SizedBox(
         height: 210,
@@ -68,35 +156,16 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
       );
+}
 
+class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Flutter App'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextField(
-                decoration: InputDecoration(labelText: 'Title'),
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: 'Amount'),
-              ),
-              FlatButton(
-                child: Text('Submit'),
-                onPressed: () {
-                  print('Click Button');
-                },
-              ),
-              ...transactions.map((tx) {
-                return _buildCard(tx);
-              }).toList()
-            ]),
-      ),
+      body: SingleChildScrollView(child: UserTransactions()),
     );
   }
 }
