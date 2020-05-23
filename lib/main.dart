@@ -19,25 +19,39 @@ class MyHomePage extends StatelessWidget {
         title: Text('Flutter App'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-        Card(
-          color: Colors.blue,
-          elevation: 5,
-          child: Text('List of TX'),
-        ),
-        Card(
-          color: Colors.blue,
-          elevation: 5,
-          child: Text('List of TX'),
-        ),
-        Card(
-          color: Colors.blue,
-          elevation: 5,
-          child: Text('List of TX'),
-        ),
-      ]),
+          Card(
+            color: Colors.blue,
+            elevation: 5,
+            child: Text('List of TX'),
+          ),
+          Card(
+            color: Colors.blue,
+            elevation: 5,
+            child: Text('List of TX'),
+          ),
+          Card(
+            color: Colors.blue,
+            elevation: 5,
+            child: Text('List of TX'),
+          ),
+          Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const ListTile(
+                  leading: Icon(Icons.album),
+                  title: Text('The Enchanted Nightingale'),
+                  subtitle:
+                      Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
