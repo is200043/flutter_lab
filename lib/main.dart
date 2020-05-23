@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './question.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,15 +32,7 @@ class _MyAppState extends State<MyApp> {
           title: Text('My First App'),
         ),
         body: Column(children: <Widget>[
-          Container(
-            child: Text(
-              questions[_questionIndex],
-              style: TextStyle(fontSize: 28),
-              textAlign: TextAlign.center,
-            ),
-            width: double.infinity,
-            margin: EdgeInsets.all(20),
-          ),
+          Question(questions[_questionIndex]),
           RaisedButton(
             child: Text('Justin Bieber'),
             onPressed: () => print('I am clicking Justin Bieber'),
