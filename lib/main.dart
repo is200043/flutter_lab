@@ -27,6 +27,10 @@ class MyHomePage extends StatelessWidget {
         date: DateTime.now()),
     Transaction(
         id: 't3', title: 'Buy the new TV', amount: 15000, date: DateTime.now()),
+    Transaction(
+        id: 't3', title: 'Buy the new TV', amount: 15000, date: DateTime.now()),
+    Transaction(
+        id: 't3', title: 'Buy the new TV', amount: 15000, date: DateTime.now()),
   ];
 
   Widget _buildCard(Transaction tx) => SizedBox(
@@ -71,14 +75,28 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Flutter App'),
       ),
-      body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ...transactions.map((tx) {
-              return _buildCard(tx);
-            }).toList()
-          ]),
+      body: SingleChildScrollView(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                decoration: InputDecoration(labelText: 'Title'),
+              ),
+              TextField(
+                decoration: InputDecoration(labelText: 'Amount'),
+              ),
+              FlatButton(
+                child: Text('Submit'),
+                onPressed: () {
+                  print('Click Button');
+                },
+              ),
+              ...transactions.map((tx) {
+                return _buildCard(tx);
+              }).toList()
+            ]),
+      ),
     );
   }
 }
