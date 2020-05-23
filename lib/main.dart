@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import './transaction.dart';
 
 void main() {
@@ -42,7 +43,7 @@ class MyHomePage extends StatelessWidget {
                 children: <Widget>[
                   ListTile(
                     leading: Icon(Icons.album),
-                    title: Text("${tx.id} - ${tx.date.toString()}"),
+                    title: Text("${tx.id} - ${new DateFormat('dd/MM/yyyy') .format(tx.date)}"),
                     subtitle:
                         Text("${tx.title} - ${tx.amount.toString()}"),
                   ),
